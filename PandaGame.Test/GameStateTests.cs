@@ -16,7 +16,7 @@ namespace PandaGame.Test
     [TestInitialize()]
     public void Initialize() {
       service = new GameStateService();
-      initialGameState = service.NewGame();
+      initialGameState = service.NewGame(new Random(1));
     }
 
     [TestMethod]
@@ -27,6 +27,13 @@ namespace PandaGame.Test
       Assert.AreEqual(9, initialGameState.ImprovementChipPool.Values.Sum());
       Assert.AreEqual(27, initialGameState.PlotTileDeck.Count);
       Assert.AreEqual(0, initialGameState.PlotGrid.Count);
+      
+      Assert.AreEqual(new PlotTile(BambooColor.Pink, PlotImprovement.None), initialGameState.PlotTileDeck[0]);
+      Assert.AreEqual(new PlotTile(BambooColor.Pink, PlotImprovement.Enclosure), initialGameState.PlotTileDeck[1]);
+      Assert.AreEqual(7, initialGameState.PlotTileDeck.Count(x => x.Color == BambooColor.Pink));
+      Assert.AreEqual(9, initialGameState.PlotTileDeck.Count(x => x.Color == BambooColor.Yellow));
+      Assert.AreEqual(11, initialGameState.PlotTileDeck.Count(x => x.Color == BambooColor.Green));
+      
     }
   }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using MoreLinq;
 using PandaGame.Domain.Plots;
 using PandaGame.Domain.Util;
 
@@ -9,7 +10,7 @@ namespace PandaGame.Domain.Services
 {
   public class GameStateService
   {
-    public static readonly ImmutableDictionary<PlotTile, int> PlotTileCounts = new Dictionary<PlotTile, int>
+    public static readonly IDictionary<PlotTile, int> PlotTileCounts = new Dictionary<PlotTile, int>
     {
       [new PlotTile(BambooColor.Green, PlotImprovement.None)] = 5,
       [new PlotTile(BambooColor.Green, PlotImprovement.Enclosure)] = 2,
@@ -23,12 +24,14 @@ namespace PandaGame.Domain.Services
       [new PlotTile(BambooColor.Pink, PlotImprovement.Enclosure)] = 1,
       [new PlotTile(BambooColor.Pink, PlotImprovement.Fertilizer)] = 1,
       [new PlotTile(BambooColor.Pink, PlotImprovement.Watershed)] = 1,
-    }.ToImmutableDictionary();
+    };
 
-    public GameState NewGame()
+    public GameState NewGame(Random random = null)
     {
       return new GameState(
-        PlotTileCounts.SelectMany(kv => Enumerable.Repeat(kv.Key, kv.Value)).ToImmutableList(),
+        PlotTileCounts.SelectMany(kv => Enumerable.Repeat(kv.Key, kv.Value))
+          .OrderBy(x => x.Color).ThenBy(x => x.Improvement)
+          .Shuffle(random ?? new Random()).ToImmutableList(),
         new[] { PlotImprovement.Enclosure, PlotImprovement.Fertilizer, PlotImprovement.Watershed }.ToImmutableDictionary(x => x, _ => 3),
         ImmutableDictionary<(int q, int r), Plot>.Empty,
         HexGrids.NeighborIndicesOf((0, 0)).ToImmutableDictionary(x => x, _ => true)
