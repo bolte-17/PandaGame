@@ -16,7 +16,7 @@ namespace PandaGame.Test
     [TestInitialize()]
     public void Initialize() {
       service = new GameStateService();
-      initialGameState = service.NewGame(new Random(1));
+      initialGameState = service.NewGame();
     }
 
     [TestMethod]
@@ -27,7 +27,6 @@ namespace PandaGame.Test
       Assert.AreEqual(9, initialGameState.ImprovementChipPool.Values.Sum());
       Assert.AreEqual(27, initialGameState.PlotTileDeck.Count);
       Assert.AreEqual(0, initialGameState.PlotGrid.Count);
-      Assert.AreEqual(new PlotTile(BambooColor.Green, PlotImprovement.Watershed), initialGameState.PlotTileDeck.First());
     }
   }
 }

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using Medallion;
 using PandaGame.Domain.Plots;
 using PandaGame.Domain.Util;
 
@@ -26,10 +25,10 @@ namespace PandaGame.Domain.Services
       [new PlotTile(BambooColor.Pink, PlotImprovement.Watershed)] = 1,
     }.ToImmutableDictionary();
 
-    public GameState NewGame(Random random)
+    public GameState NewGame()
     {
       return new GameState(
-        PlotTileCounts.SelectMany(kv => Enumerable.Repeat(kv.Key, kv.Value)).Shuffled(random).ToImmutableList(),
+        PlotTileCounts.SelectMany(kv => Enumerable.Repeat(kv.Key, kv.Value)).ToImmutableList(),
         new[] { PlotImprovement.Enclosure, PlotImprovement.Fertilizer, PlotImprovement.Watershed }.ToImmutableDictionary(x => x, _ => 3),
         ImmutableDictionary<(int q, int r), Plot>.Empty,
         HexGrids.NeighborIndicesOf((0, 0)).ToImmutableDictionary(x => x, _ => true)

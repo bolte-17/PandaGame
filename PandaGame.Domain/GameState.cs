@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using Medallion;
 using PandaGame.Domain.Plots;
 
 namespace PandaGame.Domain
