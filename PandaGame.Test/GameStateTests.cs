@@ -33,7 +33,24 @@ namespace PandaGame.Test
       Assert.AreEqual(7, initialGameState.PlotTileDeck.Count(x => x.Color == BambooColor.Pink));
       Assert.AreEqual(9, initialGameState.PlotTileDeck.Count(x => x.Color == BambooColor.Yellow));
       Assert.AreEqual(11, initialGameState.PlotTileDeck.Count(x => x.Color == BambooColor.Green));
-      
+    }
+
+    [TestMethod]
+    public void PlaceTile_Success()
+    {
+      var tile = new PlotTile(BambooColor.Green);
+      var location = (0,1);
+      var newState = service.PlaceTile(initialGameState, new PlotTile(BambooColor.Green), location);
+
+      Assert.AreEqual(tile, newState.PlotGrid[location].Tile);
+    }
+
+    [TestMethod]
+    public void PlaceTile_OriginFails()
+    {
+      var tile = new PlotTile(BambooColor.Green);
+      var origin = (0,0);
+      Assert.ThrowsException<ArgumentException>(() => service.PlaceTile(initialGameState, tile, origin));
     }
   }
 }

@@ -39,6 +39,8 @@ namespace PandaGame.Domain.Services
     }
 
     public GameState PlaceTile(GameState gameState, PlotTile tile, (int q, int r) location) {
+      if (location.q == 0 && location.r == 0)
+        throw new ArgumentException("Cannot place tile at pond's location (0,0)", nameof(location));
       return new GameState(
         gameState.PlotTileDeck.Remove(tile),
         gameState.ImprovementChipPool,
