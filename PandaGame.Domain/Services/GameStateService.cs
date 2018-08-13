@@ -32,9 +32,9 @@ namespace PandaGame.Domain.Services
         PlotTileCounts.SelectMany(kv => Enumerable.Repeat(kv.Key, kv.Value))
           .OrderBy(x => x.Color).ThenBy(x => x.Improvement)
           .Shuffle(random ?? new Random()).ToImmutableList(),
-        new[] { PlotImprovement.Enclosure, PlotImprovement.Fertilizer, PlotImprovement.Watershed }.ToImmutableDictionary(x => x, _ => 3),
+        new[] { PlotImprovement.Enclosure, PlotImprovement.Fertilizer, PlotImprovement.Watershed }.SelectMany(x => Enumerable.Repeat(x, 3)),
         ImmutableDictionary<(int q, int r), Plot>.Empty,
-        HexGrids.NeighborIndicesOf((0, 0)).ToImmutableDictionary(x => x, _ => true)
+        HexGrids.NeighborIndicesOf((0, 0))
       );
     }
 

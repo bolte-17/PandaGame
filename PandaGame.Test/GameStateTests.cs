@@ -22,9 +22,9 @@ namespace PandaGame.Test
     [TestMethod]
     public void TestInitialize()
     {
-      Assert.IsTrue(initialGameState.IrrigationGrid[(0, 1)]);
+      Assert.IsTrue(initialGameState.IrrigationGrid.Contains((0, 1)));
       Assert.AreEqual(6, initialGameState.IrrigationGrid.Count);
-      Assert.AreEqual(9, initialGameState.ImprovementChipPool.Values.Sum());
+      Assert.AreEqual(9, initialGameState.ImprovementChipPool.Count());
       Assert.AreEqual(27, initialGameState.PlotTileDeck.Count);
       Assert.AreEqual(0, initialGameState.PlotGrid.Count);
       
