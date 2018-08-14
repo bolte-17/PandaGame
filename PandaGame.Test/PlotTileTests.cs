@@ -45,6 +45,7 @@ namespace PandaGame.Test
       Assert.AreEqual(nullTile1, nullTile2);
       Assert.AreNotEqual(tile1, nullTile1);
       Assert.AreNotEqual(nullTile1, tile1);
+      Assert.IsTrue(nullTile2 != tile1);
     }
 
     [TestMethod]
@@ -55,10 +56,8 @@ namespace PandaGame.Test
 
       Assert.AreEqual(tile1.GetHashCode(), tile2.GetHashCode());
 
-      var set = new HashSet<PlotTile>();
-      set.Add(tile1);
-      set.Add(tile2);
-      
+      var set = new HashSet<PlotTile> { tile1, tile2 };
+
       Assert.AreEqual(1, set.Count);
     }
   }

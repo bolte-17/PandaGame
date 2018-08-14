@@ -1,5 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <ItemGroup>
+    <ProjectReference Include="..\PandaGame.Domain\PandaGame.Domain.csproj" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
@@ -11,11 +15,5 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="MoreLinq" Version="3.0.0" />
-    <PackageReference Include="Optional" Version="4.0.0" />
-    <PackageReference Include="System.Collections.Immutable" Version="1.5.0" />
-  </ItemGroup>
 
 </Project>

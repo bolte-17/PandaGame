@@ -16,7 +16,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "dotnet:build",
-      "program": "${workspaceFolder}/PandaGame.Web/bin/Debug/netcoreapp2.0/PandaGame.Web.dll",
+      "program": "${workspaceFolder}/PandaGame.Web/bin/Debug/netcoreapp2.1/PandaGame.Web.dll",
       "args": [],
       "cwd": "${workspaceFolder}/PandaGame.Web",
       "stopAtEntry": false,

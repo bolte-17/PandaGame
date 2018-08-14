@@ -4,19 +4,20 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PandaGame.Domain;
 using PandaGame.Domain.Plots;
 using PandaGame.Domain.Services;
+using static PandaGame.Domain.Services.GameStateService;
 
 namespace PandaGame.Test
 {
   [TestClass]
   public class GameStateTests
   {
-    private GameStateService service;
+    
     private GameState initialGameState;
 
     [TestInitialize()]
     public void Initialize() {
-      service = new GameStateService();
-      initialGameState = service.NewGame(new Random(1));
+    
+      initialGameState = NewGame(new Random(1));
     }
 
     [TestMethod]
@@ -40,7 +41,7 @@ namespace PandaGame.Test
     {
       var tile = new PlotTile(BambooColor.Green);
       var location = (0,1);
-      var newState = service.PlaceTile(initialGameState, new PlotTile(BambooColor.Green), location);
+      var newState = GameStateService.PlaceTile(initialGameState, new PlotTile(BambooColor.Green), location);
 
       Assert.AreEqual(tile, newState.PlotGrid[location].Tile);
     }
@@ -50,7 +51,16 @@ namespace PandaGame.Test
     {
       var tile = new PlotTile(BambooColor.Green);
       var origin = (0,0);
-      Assert.ThrowsException<ArgumentException>(() => service.PlaceTile(initialGameState, tile, origin));
+      Assert.ThrowsException<ArgumentException>(() => initialGameState.PlaceTile(tile, origin));
+    }
+
+    [TestMethod]
+    public void PlaceTile_OverwriteFails()
+    {
+      var tile = new PlotTile(BambooColor.Green, PlotImprovement.Enclosure);
+      var location = (0, 1);
+      var nextState = initialGameState.PlaceTile(tile, location);
+      Assert.ThrowsException<ArgumentException>(() => nextState.PlaceTile(tile, location));
     }
   }
 }

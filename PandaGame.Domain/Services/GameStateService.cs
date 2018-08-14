@@ -4,11 +4,11 @@ using System.Collections.Immutable;
 using System.Linq;
 using MoreLinq;
 using PandaGame.Domain.Plots;
-using PandaGame.Domain.Util;
+using PandaGame.Domain.HexGrids;
 
 namespace PandaGame.Domain.Services
 {
-  public class GameStateService
+  public static class GameStateService
   {
     public static readonly IDictionary<PlotTile, int> PlotTileCounts = new Dictionary<PlotTile, int>
     {
@@ -26,23 +26,36 @@ namespace PandaGame.Domain.Services
       [new PlotTile(BambooColor.Pink, PlotImprovement.Watershed)] = 1,
     };
 
-    public GameState NewGame(Random random = null)
+    public static readonly IDictionary<PlotImprovement, int> ImprovementChipCounts = new Dictionary<PlotImprovement, int>
+    {
+      [PlotImprovement.Enclosure] = 3,
+      [PlotImprovement.Fertilizer] = 3,
+      [PlotImprovement.Watershed] = 3,
+    };
+
+    public static GameState NewGame(Random random = null)
     {
       return new GameState(
         PlotTileCounts.SelectMany(kv => Enumerable.Repeat(kv.Key, kv.Value))
-          .OrderBy(x => x.Color).ThenBy(x => x.Improvement)
+          .OrderBy(x => x.Color).ThenBy(x => x.Improvement) // IDictionary
           .Shuffle(random ?? new Random()).ToImmutableList(),
-        new[] { PlotImprovement.Enclosure, PlotImprovement.Fertilizer, PlotImprovement.Watershed }.SelectMany(x => Enumerable.Repeat(x, 3)),
-        ImmutableDictionary<(int q, int r), Plot>.Empty,
-        HexGrids.NeighborIndicesOf((0, 0))
+        ImprovementChipCounts.SelectMany(kv => Enumerable.Repeat(kv.Key, kv.Value)).OrderBy(x => x),
+        ImmutableDictionary<HexIndex, Plot>.Empty,
+        HexIndex.Origin.Neighbors()
       );
     }
 
-    public GameState PlaceTile(GameState gameState, PlotTile tile, (int q, int r) location) {
-      if (location.q == 0 && location.r == 0)
+    public static GameState PlaceTile(this GameState gameState, PlotTile tile, HexIndex location) {
+      if (location == (0,0))
         throw new ArgumentException("Cannot place tile at pond's location (0,0)", nameof(location));
+      var newDeck = gameState.PlotTileDeck.Remove(tile);
+      if (newDeck.Count == gameState.PlotTileDeck.Count)
+        throw new ArgumentException("Tile not available in deck", nameof(tile));
+      if (gameState.PlotGrid.ContainsKey(location))
+        throw new ArgumentException("Plot already exists at location", nameof(location));
+
       return new GameState(
-        gameState.PlotTileDeck.Remove(tile),
+        newDeck,
         gameState.ImprovementChipPool,
         gameState.PlotGrid.Add(location, new Plot(tile)),
         gameState.IrrigationGrid
