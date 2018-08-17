@@ -12,3 +12,4 @@ Recommended:
 Useful Resources:
 * [Hexagonal Grids](https://www.redblobgames.com/grids/hexagons/)
 * [Takenoko Rules FAQ](https://boardgamegeek.com/wiki/page/Takenoko_FAQ)
+* [Takenoko Rules PDF](http://www.matagot.com/docs/Takenoko_rules_EN.pdf)
