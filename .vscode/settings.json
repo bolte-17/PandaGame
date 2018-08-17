@@ -6,5 +6,7 @@
     "**/obj": true,
   },
   "dotnet-test-explorer.autoWatch": true,
-  "dotnet-test-explorer.testProjectPath": "./PandaGame.Test/PandaGame.Test.csproj"
+  "dotnet-test-explorer.testProjectPath": "./PandaGame.Test/PandaGame.Test.csproj",
+
+  "omnisharp.path": "latest",
 }

@@ -37,7 +37,7 @@ namespace PandaGame.Domain.HexGrids
 
     public override bool Equals(object obj) => obj is HexIndex && Equals((HexIndex)obj);
     public bool Equals(HexIndex other) => AsTuple() == other.AsTuple();
-
+    
     public static bool operator ==(HexIndex index1, HexIndex index2) => index1.Equals(index2);
     public static bool operator !=(HexIndex index1, HexIndex index2) => !(index1 == index2);
 
